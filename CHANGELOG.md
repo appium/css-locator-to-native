@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/appium/css-locator-to-native/compare/v1.0.0...v1.0.1) (2026-06-07)
+
+### Bug Fixes
+
+* build ([#3](https://github.com/appium/css-locator-to-native/issues/3)) ([c29fe23](https://github.com/appium/css-locator-to-native/commit/c29fe2333b5b1912e50470d829f2485e81cecd7e))
+
 ## 1.0.0 (2026-06-07)
 
 ### Features
