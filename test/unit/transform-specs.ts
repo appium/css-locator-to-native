@@ -89,6 +89,49 @@ describe('createCssTransformer', function () {
     );
   });
 
+  for (const blockedKey of ['__proto__', 'constructor', 'prototype'] as const) {
+    it(`should throw UnresolvedStrategyError when resolveStrategy returns '${blockedKey}'`, function () {
+      const transform = createCssTransformer({
+        schema: zeroOneSchema,
+        emitters,
+        resolveStrategy(): StrategyKey<typeof emitters> {
+          return blockedKey as StrategyKey<typeof emitters>;
+        },
+      });
+
+      expect(() => transform('button')).to.throw(
+        UnresolvedStrategyError,
+        /No native strategy matched/,
+      );
+    });
+  }
+
+  it('should throw UnresolvedStrategyError when emitters registry is polluted with an own __proto__ entry', function () {
+    const pollutedEmitters = Object.create(null) as typeof emitters & {
+      __proto__: (typeof emitters)['chain'];
+    };
+    pollutedEmitters.chain = emitters.chain;
+    pollutedEmitters.__proto__ = {
+      strategy: 'polluted',
+      emit() {
+        return 'polluted';
+      },
+    };
+
+    const transform = createCssTransformer({
+      schema: zeroOneSchema,
+      emitters: pollutedEmitters,
+      resolveStrategy(): StrategyKey<typeof pollutedEmitters> {
+        return '__proto__' as StrategyKey<typeof pollutedEmitters>;
+      },
+    });
+
+    expect(() => transform('button')).to.throw(
+      UnresolvedStrategyError,
+      /No native strategy matched/,
+    );
+  });
+
   it('should throw UnresolvedStrategyError when resolveStrategy returns a falsy key', function () {
     const transform = createCssTransformer({
       schema: zeroOneSchema,

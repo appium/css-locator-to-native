@@ -8,7 +8,10 @@ export type AttrType = 'boolean' | 'string' | 'numeric';
 export interface AttributeSchema {
   /** Map of canonical attribute names to their type and optional aliases */
   attributes: Record<string, {type: AttrType; aliases?: string[]}>;
-  /** Boolean coercion rules applied during normalization */
+  /**
+   * Boolean coercion rules applied during normalization.
+   * Defaults to `literal` when omitted.
+   */
   booleanFormat?: 'zero-one' | 'true-false' | 'literal';
 }
 

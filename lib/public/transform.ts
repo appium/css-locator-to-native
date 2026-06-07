@@ -7,6 +7,9 @@ import type {
   StrategyEmitter,
 } from './types.js';
 
+/** Keys that must never be used as emitter registry lookups */
+const BLOCKED_EMITTER_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
 /**
  * Create a CSS-to-native transformer using caller-provided schemas, emitters, and strategy routing.
  *
@@ -37,7 +40,7 @@ export function createCssTransformer<
     const parsed = normalizeCssSelector(css, config.schema);
     const strategyKey = config.resolveStrategy(parsed, css, ctx);
 
-    if (!strategyKey || !(strategyKey in config.emitters)) {
+    if (!hasRegisteredEmitter(config.emitters, strategyKey)) {
       throw new UnresolvedStrategyError(`No native strategy matched for CSS selector '${css}'`);
     }
 
@@ -47,4 +50,16 @@ export function createCssTransformer<
       selector: emitter.emit(parsed, ctx),
     };
   };
+}
+
+function hasRegisteredEmitter(
+  emitters: Record<string, StrategyEmitter<any>>,
+  key: string,
+): boolean {
+  return (
+    typeof key === 'string' &&
+    key.length > 0 &&
+    !BLOCKED_EMITTER_KEYS.has(key) &&
+    Object.hasOwn(emitters, key)
+  );
 }

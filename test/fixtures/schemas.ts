@@ -13,6 +13,12 @@ export const zeroOneSchema: AttributeSchema = {
   booleanFormat: 'zero-one',
 };
 
+export const literalSchema: AttributeSchema = {
+  attributes: {
+    visible: {type: 'boolean'},
+  },
+};
+
 export const trueFalseSchema: AttributeSchema = {
   attributes: {
     clickable: {type: 'boolean'},

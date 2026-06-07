@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {UnsupportedSelectorError, normalizeCssSelector} from '../../lib/index.js';
-import {trueFalseSchema, zeroOneSchema} from '../fixtures/schemas.js';
+import {literalSchema, trueFalseSchema, zeroOneSchema} from '../fixtures/schemas.js';
 
 describe('normalizeCssSelector', function () {
   describe('boolean coercion', function () {
@@ -28,6 +28,32 @@ describe('normalizeCssSelector', function () {
         UnsupportedSelectorError,
         /must be true\/1 or false\/0/,
       );
+    });
+
+    it('should keep raw boolean values with literal format', function () {
+      const parsed = normalizeCssSelector('[visible="FALSE"]', literalSchema);
+      expect(parsed.rule.attributes[0]).to.deep.equal({
+        name: 'visible',
+        value: 'FALSE',
+        implicit: false,
+      });
+    });
+
+    it('should preserve explicit empty boolean values with literal format', function () {
+      const parsed = normalizeCssSelector('[visible=""]', literalSchema);
+      expect(parsed.rule.attributes[0]).to.deep.equal({
+        name: 'visible',
+        value: '',
+        implicit: false,
+      });
+    });
+
+    it('should leave implicit booleans unset with literal format', function () {
+      const parsed = normalizeCssSelector('[visible]', literalSchema);
+      expect(parsed.rule.attributes[0]).to.deep.equal({
+        name: 'visible',
+        implicit: true,
+      });
     });
   });
 

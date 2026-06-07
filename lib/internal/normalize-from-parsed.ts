@@ -64,10 +64,16 @@ function coerceBoolean(
   rawValue: string | undefined,
   entityName: string,
   booleanFormat: AttributeSchema['booleanFormat'],
-): string {
+): string | undefined {
+  const format = booleanFormat ?? 'literal';
+
+  if (format === 'literal') {
+    return rawValue;
+  }
+
   const value = (rawValue ?? '').toLowerCase() || 'true';
 
-  switch (booleanFormat ?? 'literal') {
+  switch (format) {
     case 'zero-one':
       switch (value) {
         case '0':
@@ -92,8 +98,6 @@ function coerceBoolean(
             `'${entityName}' must be true, false or empty. Found '${rawValue ?? ''}'`,
           );
       }
-    case 'literal':
-      return value;
     default:
       throw new UnsupportedSelectorError(`Unsupported boolean format '${booleanFormat}'.`);
   }
@@ -128,11 +132,14 @@ function normalizeEntity(
   switch (definition.type) {
     case 'boolean': {
       const coerced = coerceBoolean(value, canonicalName, schema.booleanFormat);
-      return {
+      const attr: ParsedAttribute = {
         name: canonicalName.toLowerCase(),
-        value: coerced,
         implicit: value === undefined,
       };
+      if (coerced !== undefined) {
+        attr.value = coerced;
+      }
+      return attr;
     }
     case 'numeric': {
       const attr: ParsedAttribute = {

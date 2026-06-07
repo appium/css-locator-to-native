@@ -94,7 +94,7 @@ interface AttributeSchema {
 
 - **`zero-one`** — `true`/`1`/empty → `'1'`, `false`/`0` → `'0'`
 - **`true-false`** — `true`/empty → `'true'`, `false` → `'false'`
-- **`literal`** — keep the raw string value
+- **`literal`** (default) — keep the raw attribute value unchanged; implicit booleans (no value) stay unset
 
 Tag, class, and `#id` mapping (e.g. `XCUIElementType*` prefixing, `resourceId` prefixing) is entirely the driver's responsibility in emitters.
 
