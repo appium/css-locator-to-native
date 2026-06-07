@@ -1,6 +1,11 @@
 import {UnresolvedStrategyError} from './errors.js';
 import {normalizeCssSelector} from './normalize.js';
-import type {CssTransformerConfig, NativeLocator, StrategyEmitter} from './types.js';
+import type {
+  CssTransformer,
+  CssTransformerConfig,
+  NativeLocator,
+  StrategyEmitter,
+} from './types.js';
 
 /**
  * Create a CSS-to-native transformer using caller-provided schemas, emitters, and strategy routing.
@@ -17,7 +22,7 @@ import type {CssTransformerConfig, NativeLocator, StrategyEmitter} from './types
 export function createCssTransformer<
   TEmitters extends Record<string, StrategyEmitter<any>>,
   TContext = unknown,
->(config: CssTransformerConfig<TEmitters, TContext>) {
+>(config: CssTransformerConfig<TEmitters, TContext>): CssTransformer<TContext> {
   /**
    * Transform a CSS selector into a native locator for the resolved strategy.
    *

@@ -87,6 +87,9 @@ export type StrategyResolver<
   TContext = unknown,
 > = (parsed: ParsedSelector, css: string, ctx?: TContext) => StrategyKey<TEmitters>;
 
+/** Function returned by {@link createCssTransformer} */
+export type CssTransformer<TContext = unknown> = (css: string, ctx?: TContext) => NativeLocator;
+
 /** Configuration for {@link createCssTransformer} */
 export interface CssTransformerConfig<
   TEmitters extends Record<string, StrategyEmitter<any>>,

@@ -8,6 +8,7 @@ export {createCssTransformer} from './public/transform.js';
 export type {
   AttrType,
   AttributeSchema,
+  CssTransformer,
   CssTransformerConfig,
   NativeLocator,
   ParsedAttribute,
