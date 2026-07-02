@@ -1,3 +1,9 @@
+## [1.0.2](https://github.com/appium/css-locator-to-native/compare/v1.0.1...v1.0.2) (2026-07-02)
+
+### Miscellaneous Chores
+
+* **deps:** bump actions/checkout from 6 to 7 ([#4](https://github.com/appium/css-locator-to-native/issues/4)) ([7756a42](https://github.com/appium/css-locator-to-native/commit/7756a4222556673b8176abdc173441b554cbb4d7))
+
 ## [1.0.1](https://github.com/appium/css-locator-to-native/compare/v1.0.0...v1.0.1) (2026-06-07)
 
 ### Bug Fixes
