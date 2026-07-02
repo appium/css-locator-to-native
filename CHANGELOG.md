@@ -1,3 +1,9 @@
+## [1.0.3](https://github.com/appium/css-locator-to-native/compare/v1.0.2...v1.0.3) (2026-07-02)
+
+### Miscellaneous Chores
+
+* **deps-dev:** bump @types/node from 25.9.4 to 26.1.0 ([#8](https://github.com/appium/css-locator-to-native/issues/8)) ([a2b99ff](https://github.com/appium/css-locator-to-native/commit/a2b99ffc39f5bee853f694b2065060841abeb9fb))
+
 ## [1.0.2](https://github.com/appium/css-locator-to-native/compare/v1.0.1...v1.0.2) (2026-07-02)
 
 ### Miscellaneous Chores
