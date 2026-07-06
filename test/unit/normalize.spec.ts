@@ -1,12 +1,13 @@
-import {expect} from 'chai';
-import {UnsupportedSelectorError, normalizeCssSelector} from '../../lib/index.js';
+import assert from 'node:assert/strict';
+import {normalizeCssSelector} from '../../lib/index.js';
 import {literalSchema, trueFalseSchema, zeroOneSchema} from '../fixtures/schemas.js';
+import {describe, it} from 'node:test';
 
 describe('normalizeCssSelector', function () {
   describe('boolean coercion', function () {
     it('should coerce implicit booleans to 1 with zero-one format', function () {
       const parsed = normalizeCssSelector('[visible]', zeroOneSchema);
-      expect(parsed.rule.attributes[0]).to.deep.equal({
+      assert.deepStrictEqual(parsed.rule.attributes[0], {
         name: 'visible',
         value: '1',
         implicit: true,
@@ -15,24 +16,24 @@ describe('normalizeCssSelector', function () {
 
     it('should coerce explicit booleans to 0/1 with zero-one format', function () {
       const parsed = normalizeCssSelector('[visible="false"]', zeroOneSchema);
-      expect(parsed.rule.attributes[0].value).to.equal('0');
+      assert.strictEqual(parsed.rule.attributes[0].value, '0');
     });
 
     it('should coerce booleans to true/false format', function () {
       const parsed = normalizeCssSelector('[clickable="false"]', trueFalseSchema);
-      expect(parsed.rule.attributes[0].value).to.equal('false');
+      assert.strictEqual(parsed.rule.attributes[0].value, 'false');
     });
 
     it('should reject invalid boolean values for zero-one format', function () {
-      expect(() => normalizeCssSelector('[visible="maybe"]', zeroOneSchema)).to.throw(
-        UnsupportedSelectorError,
+      assert.throws(
+        () => normalizeCssSelector('[visible="maybe"]', zeroOneSchema),
         /must be true\/1 or false\/0/,
       );
     });
 
     it('should keep raw boolean values with literal format', function () {
       const parsed = normalizeCssSelector('[visible="FALSE"]', literalSchema);
-      expect(parsed.rule.attributes[0]).to.deep.equal({
+      assert.deepStrictEqual(parsed.rule.attributes[0], {
         name: 'visible',
         value: 'FALSE',
         implicit: false,
@@ -41,7 +42,7 @@ describe('normalizeCssSelector', function () {
 
     it('should preserve explicit empty boolean values with literal format', function () {
       const parsed = normalizeCssSelector('[visible=""]', literalSchema);
-      expect(parsed.rule.attributes[0]).to.deep.equal({
+      assert.deepStrictEqual(parsed.rule.attributes[0], {
         name: 'visible',
         value: '',
         implicit: false,
@@ -50,7 +51,7 @@ describe('normalizeCssSelector', function () {
 
     it('should leave implicit booleans unset with literal format', function () {
       const parsed = normalizeCssSelector('[visible]', literalSchema);
-      expect(parsed.rule.attributes[0]).to.deep.equal({
+      assert.deepStrictEqual(parsed.rule.attributes[0], {
         name: 'visible',
         implicit: true,
       });
@@ -60,20 +61,20 @@ describe('normalizeCssSelector', function () {
   describe('attribute aliases', function () {
     it('should resolve attribute aliases to canonical names', function () {
       const parsed = normalizeCssSelector('[id="foo"]', zeroOneSchema);
-      expect(parsed.rule.attributes[0].name).to.equal('name');
+      assert.strictEqual(parsed.rule.attributes[0].name, 'name');
     });
 
     it('should resolve pseudo-class aliases', function () {
       const parsed = normalizeCssSelector(':nth-child(3)', zeroOneSchema);
-      expect(parsed.rule.pseudos[0].name).to.equal('index');
-      expect(parsed.rule.pseudos[0].value).to.equal('3');
+      assert.strictEqual(parsed.rule.pseudos[0].name, 'index');
+      assert.strictEqual(parsed.rule.pseudos[0].value, '3');
     });
   });
 
   describe('string attributes', function () {
     it('should preserve string operators', function () {
       const parsed = normalizeCssSelector('[label^="Sign"]', zeroOneSchema);
-      expect(parsed.rule.attributes[0]).to.deep.include({
+      assert.deepStrictEqual(parsed.rule.attributes[0], {
         name: 'label',
         operator: '^=',
         value: 'Sign',
@@ -82,27 +83,27 @@ describe('normalizeCssSelector', function () {
 
     it('should default empty string attribute values to empty string', function () {
       const parsed = normalizeCssSelector('[label]', zeroOneSchema);
-      expect(parsed.rule.attributes[0].value).to.equal('');
+      assert.strictEqual(parsed.rule.attributes[0].value, '');
     });
   });
 
   describe('validation', function () {
     it('should reject unknown attributes', function () {
-      expect(() => normalizeCssSelector('[unknown="x"]', zeroOneSchema)).to.throw(
-        UnsupportedSelectorError,
+      assert.throws(
+        () => normalizeCssSelector('[unknown="x"]', zeroOneSchema),
         /not a valid attribute/,
       );
     });
 
     it('should preserve raw id values without platform mapping', function () {
       const parsed = normalizeCssSelector('#my-id', zeroOneSchema);
-      expect(parsed.rule.id).to.equal('my-id');
-      expect(parsed.rule.attributes).to.deep.equal([]);
+      assert.strictEqual(parsed.rule.id, 'my-id');
+      assert.deepStrictEqual(parsed.rule.attributes, []);
     });
 
     it('should preserve raw class tokens without platform mapping', function () {
       const parsed = normalizeCssSelector('.foo.bar', zeroOneSchema);
-      expect(parsed.rule.classes).to.deep.equal(['foo', 'bar']);
+      assert.deepStrictEqual(parsed.rule.classes, ['foo', 'bar']);
     });
   });
 });

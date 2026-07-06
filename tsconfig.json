@@ -7,7 +7,7 @@
     "moduleResolution": "NodeNext",
     "strict": true,
     "rootDir": ".",
-    "types": ["node", "mocha"],
+    "types": ["node"],
     "composite": false,
     "incremental": false
   },
