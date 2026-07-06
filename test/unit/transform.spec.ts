@@ -1,5 +1,4 @@
-import {expect, use} from 'chai';
-import chaiAsPromised from 'chai-as-promised';
+import assert from 'node:assert/strict';
 import {
   UnresolvedStrategyError,
   createCssTransformer,
@@ -8,8 +7,7 @@ import {
   type StrategyKey,
 } from '../../lib/index.js';
 import {zeroOneSchema} from '../fixtures/schemas.js';
-
-use(chaiAsPromised);
+import {describe, it} from 'node:test';
 
 describe('createCssTransformer', function () {
   const emitters = {
@@ -36,15 +34,15 @@ describe('createCssTransformer', function () {
       },
     });
 
-    expect(transform('button')).to.deep.equal({
+    assert.deepStrictEqual(transform('button'), {
       strategy: '-ios class chain',
       selector: 'tag:button',
     });
-    expect(transform('#foo')).to.deep.equal({
+    assert.deepStrictEqual(transform('#foo'), {
       strategy: 'accessibility id',
       selector: 'foo',
     });
-    expect(transform('window')).to.deep.equal({
+    assert.deepStrictEqual(transform('window'), {
       strategy: '-ios class chain',
       selector: 'tag:window',
     });
@@ -68,7 +66,7 @@ describe('createCssTransformer', function () {
       },
     });
 
-    expect(transform('button', {prefix: 'ctx'})).to.deep.equal({
+    assert.deepStrictEqual(transform('button', {prefix: 'ctx'}), {
       strategy: 'echo',
       selector: 'ctx',
     });
@@ -83,10 +81,7 @@ describe('createCssTransformer', function () {
       },
     });
 
-    expect(() => transform('button')).to.throw(
-      UnresolvedStrategyError,
-      /No native strategy matched/,
-    );
+    assert.throws(() => transform('button'), /No native strategy matched/);
   });
 
   for (const blockedKey of ['__proto__', 'constructor', 'prototype'] as const) {
@@ -99,10 +94,7 @@ describe('createCssTransformer', function () {
         },
       });
 
-      expect(() => transform('button')).to.throw(
-        UnresolvedStrategyError,
-        /No native strategy matched/,
-      );
+      assert.throws(() => transform('button'), /No native strategy matched/);
     });
   }
 
@@ -126,10 +118,7 @@ describe('createCssTransformer', function () {
       },
     });
 
-    expect(() => transform('button')).to.throw(
-      UnresolvedStrategyError,
-      /No native strategy matched/,
-    );
+    assert.throws(() => transform('button'), /No native strategy matched/);
   });
 
   it('should throw UnresolvedStrategyError when resolveStrategy returns a falsy key', function () {
@@ -141,6 +130,6 @@ describe('createCssTransformer', function () {
       },
     });
 
-    expect(() => transform('button')).to.throw(UnresolvedStrategyError);
+    assert.throws(() => transform('button'), UnresolvedStrategyError);
   });
 });

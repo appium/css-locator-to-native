@@ -41,9 +41,7 @@
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier -w ./lib ./test",
     "format:check": "prettier --check ./lib ./test",
-    "prepare": "npm run build",
-    "pretest": "npm run build",
-    "test": "mocha"
+    "test": "node --test ./build/test/**/*.spec.js"
   },
   "prettier": {
     "bracketSpacing": false,
@@ -59,14 +57,8 @@
     "@appium/types": "^1.0.0-rc.1",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
-    "@types/chai": "^5.2.3",
-    "@types/chai-as-promised": "^8.0.2",
-    "@types/mocha": "^10.0.1",
     "@types/node": "^26.1.0",
-    "chai": "^6.0.0",
-    "chai-as-promised": "^8.0.0",
     "conventional-changelog-conventionalcommits": "^9.0.0",
-    "mocha": "^11.0.1",
     "prettier": "^3.0.0",
     "semantic-release": "^25.0.2",
     "typescript": "^6.0.3"
