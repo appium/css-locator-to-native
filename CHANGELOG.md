@@ -1,3 +1,9 @@
+## [1.0.5](https://github.com/appium/css-locator-to-native/compare/v1.0.4...v1.0.5) (2026-07-06)
+
+### Bug Fixes
+
+* Restore prepare script ([#11](https://github.com/appium/css-locator-to-native/issues/11)) ([bd485fa](https://github.com/appium/css-locator-to-native/commit/bd485faa412e179a414aef3b91d35537d9fb30b3))
+
 ## [1.0.4](https://github.com/appium/css-locator-to-native/compare/v1.0.3...v1.0.4) (2026-07-06)
 
 ### Miscellaneous Chores
