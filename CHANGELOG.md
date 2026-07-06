@@ -1,3 +1,9 @@
+## [1.0.4](https://github.com/appium/css-locator-to-native/compare/v1.0.3...v1.0.4) (2026-07-06)
+
+### Miscellaneous Chores
+
+* Drop mocha and chai ([#10](https://github.com/appium/css-locator-to-native/issues/10)) ([c2e9145](https://github.com/appium/css-locator-to-native/commit/c2e91452a92e85ff7dbf1dae7611997a4fe7c640))
+
 ## [1.0.3](https://github.com/appium/css-locator-to-native/compare/v1.0.2...v1.0.3) (2026-07-02)
 
 ### Miscellaneous Chores
