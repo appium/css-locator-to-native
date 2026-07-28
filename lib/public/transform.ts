@@ -1,11 +1,6 @@
 import {UnresolvedStrategyError} from './errors.js';
 import {normalizeCssSelector} from './normalize.js';
-import type {
-  CssTransformer,
-  CssTransformerConfig,
-  NativeLocator,
-  StrategyEmitter,
-} from './types.js';
+import type {CssTransformer, CssTransformerConfig, NativeLocator, StrategyEmitter} from './types.js';
 
 /** Keys that must never be used as emitter registry lookups */
 const BLOCKED_EMITTER_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
@@ -22,10 +17,9 @@ const BLOCKED_EMITTER_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
  * @param config.resolveStrategy - Callback that returns an emitter key for the parsed selector
  * @returns A function `(css, ctx?) => NativeLocator` that transforms CSS into a native locator
  */
-export function createCssTransformer<
-  TEmitters extends Record<string, StrategyEmitter<any>>,
-  TContext = unknown,
->(config: CssTransformerConfig<TEmitters, TContext>): CssTransformer<TContext> {
+export function createCssTransformer<TEmitters extends Record<string, StrategyEmitter<any>>, TContext = unknown>(
+  config: CssTransformerConfig<TEmitters, TContext>,
+): CssTransformer<TContext> {
   /**
    * Transform a CSS selector into a native locator for the resolved strategy.
    *
@@ -52,14 +46,6 @@ export function createCssTransformer<
   };
 }
 
-function hasRegisteredEmitter(
-  emitters: Record<string, StrategyEmitter<any>>,
-  key: string,
-): boolean {
-  return (
-    typeof key === 'string' &&
-    key.length > 0 &&
-    !BLOCKED_EMITTER_KEYS.has(key) &&
-    Object.hasOwn(emitters, key)
-  );
+function hasRegisteredEmitter(emitters: Record<string, StrategyEmitter<any>>, key: string): boolean {
+  return typeof key === 'string' && key.length > 0 && !BLOCKED_EMITTER_KEYS.has(key) && Object.hasOwn(emitters, key);
 }

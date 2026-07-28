@@ -1,5 +1,5 @@
-import {cssSelectorParserAdapter} from '../internal/parser/adapter.js';
 import {normalizeFromParsed} from '../internal/normalize-from-parsed.js';
+import {cssSelectorParserAdapter} from '../internal/parser/adapter.js';
 import {InvalidSelectorError, UnsupportedSelectorError} from './errors.js';
 import type {AttributeSchema, ParsedSelector} from './types.js';
 
@@ -25,8 +25,6 @@ export function normalizeCssSelector(selector: string, schema: AttributeSchema):
       throw err;
     }
     const message = err instanceof Error ? err.message : String(err);
-    throw new UnsupportedSelectorError(
-      `Unsupported CSS selector '${selector}'. Reason: '${message}'`,
-    );
+    throw new UnsupportedSelectorError(`Unsupported CSS selector '${selector}'. Reason: '${message}'`);
   }
 }

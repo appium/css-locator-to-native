@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
+import {describe, it} from 'node:test';
+
 import {InvalidSelectorError, normalizeCssSelector} from '../../lib/index.js';
 import {zeroOneSchema} from '../fixtures/schemas.js';
-import {describe, it} from 'node:test';
 
 describe('parser adapter', function () {
   it('should parse tags, ids, classes, and attributes', function () {
@@ -9,9 +10,7 @@ describe('parser adapter', function () {
     assert.strictEqual(parsed.rule.tag, 'window');
     assert.strictEqual(parsed.rule.id, 'foo');
     assert.deepStrictEqual(parsed.rule.classes, ['bar']);
-    assert.deepStrictEqual(parsed.rule.attributes, [
-      {name: 'visible', value: '1', implicit: false},
-    ]);
+    assert.deepStrictEqual(parsed.rule.attributes, [{name: 'visible', value: '1', implicit: false}]);
   });
 
   it('should parse wildcard tags', function () {
@@ -43,17 +42,11 @@ describe('parser adapter', function () {
   });
 
   it('should reject unsupported combinators', function () {
-    assert.throws(
-      () => normalizeCssSelector('div + span', zeroOneSchema),
-      /not a supported combinator/,
-    );
+    assert.throws(() => normalizeCssSelector('div + span', zeroOneSchema), /not a supported combinator/);
   });
 
   it('should reject pseudo-elements', function () {
-    assert.throws(
-      () => normalizeCssSelector('button::before', zeroOneSchema),
-      /Pseudo-elements are not supported/,
-    );
+    assert.throws(() => normalizeCssSelector('button::before', zeroOneSchema), /Pseudo-elements are not supported/);
   });
 
   it('should use only the first comma-separated rule', function () {

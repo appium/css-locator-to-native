@@ -1,67 +1,57 @@
 {
   "name": "@appium/css-locator-to-native",
-  "description": "Platform-agnostic CSS selector parsing and normalization for native locator transformation",
   "version": "1.0.5",
-  "type": "module",
-  "publishConfig": {
-    "access": "public"
-  },
-  "author": "Appium Contributors",
-  "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/appium/css-locator-to-native.git"
-  },
+  "description": "Platform-agnostic CSS selector parsing and normalization for native locator transformation",
+  "homepage": "https://github.com/appium/css-locator-to-native#readme",
   "bugs": {
     "url": "https://github.com/appium/css-locator-to-native/issues"
   },
-  "homepage": "https://github.com/appium/css-locator-to-native#readme",
-  "engines": {
-    "node": "^20.19.0 || ^22.12.0 || >=24.0.0",
-    "npm": ">=10"
-  },
-  "exports": {
-    ".": {
-      "types": "./build/lib/index.d.ts",
-      "import": "./build/lib/index.js"
-    }
+  "license": "Apache-2.0",
+  "author": "Appium Contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/appium/css-locator-to-native.git"
   },
   "files": [
     "lib",
     "build/lib",
     "CHANGELOG.md"
   ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./build/lib/index.d.ts",
+      "import": "./build/lib/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "clean": "rm -rf build",
     "dev": "tsc -p tsconfig.json --watch",
-    "format:check": "prettier --check ./lib ./test",
-    "format": "prettier -w ./lib ./test",
-    "lint:fix": "npm run lint -- --fix",
-    "lint": "eslint .",
+    "format:check": "oxfmt -c oxfmt.config.mjs --check .",
+    "format": "oxfmt -c oxfmt.config.mjs .",
+    "lint:fix": "oxlint -c oxlint.config.mjs --fix .",
+    "lint": "oxlint -c oxlint.config.mjs .",
     "prepare": "npm run build",
     "rebuild": "npm run clean && npm run build",
     "test": "node --test ./build/test/**/*.spec.js",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
-  "prettier": {
-    "bracketSpacing": false,
-    "printWidth": 100,
-    "singleQuote": true
-  },
   "dependencies": {
     "css-selector-parser": "^3.3.0"
   },
   "devDependencies": {
-    "@appium/eslint-config-appium-ts": "^3.0.1",
-    "@appium/tsconfig": "^1.1.2",
+    "@appium/oxc-config": "^1.1.0",
+    "@appium/semantic-release-config": "^1.1.0",
+    "@appium/tsconfig": "^1.2.0",
     "@appium/types": "^1.0.0-rc.1",
-    "@semantic-release/changelog": "^6.0.1",
-    "@semantic-release/git": "^10.0.1",
-    "@types/node": "^26.1.0",
-    "conventional-changelog-conventionalcommits": "^9.0.0",
-    "prettier": "^3.0.0",
-    "semantic-release": "^25.0.2",
-    "typescript": "^6.0.3"
+    "@types/node": "^26.1.0"
+  },
+  "engines": {
+    "node": "^20.19.0 || ^22.12.0 || >=24.0.0",
+    "npm": ">=10"
   }
 }

@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
+import {describe, it} from 'node:test';
+
 import {normalizeCssSelector} from '../../lib/index.js';
 import {literalSchema, trueFalseSchema, zeroOneSchema} from '../fixtures/schemas.js';
-import {describe, it} from 'node:test';
 
 describe('normalizeCssSelector', function () {
   describe('boolean coercion', function () {
@@ -25,10 +26,7 @@ describe('normalizeCssSelector', function () {
     });
 
     it('should reject invalid boolean values for zero-one format', function () {
-      assert.throws(
-        () => normalizeCssSelector('[visible="maybe"]', zeroOneSchema),
-        /must be true\/1 or false\/0/,
-      );
+      assert.throws(() => normalizeCssSelector('[visible="maybe"]', zeroOneSchema), /must be true\/1 or false\/0/);
     });
 
     it('should keep raw boolean values with literal format', function () {
@@ -89,10 +87,7 @@ describe('normalizeCssSelector', function () {
 
   describe('validation', function () {
     it('should reject unknown attributes', function () {
-      assert.throws(
-        () => normalizeCssSelector('[unknown="x"]', zeroOneSchema),
-        /not a valid attribute/,
-      );
+      assert.throws(() => normalizeCssSelector('[unknown="x"]', zeroOneSchema), /not a valid attribute/);
     });
 
     it('should preserve raw id values without platform mapping', function () {
