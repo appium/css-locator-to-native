@@ -1,10 +1,5 @@
 import {UnsupportedSelectorError} from '../public/errors.js';
-import type {
-  AttributeSchema,
-  ParsedAttribute,
-  ParsedRule,
-  ParsedSelector,
-} from '../public/types.js';
+import type {AttributeSchema, ParsedAttribute, ParsedRule, ParsedSelector} from '../public/types.js';
 import type {
   InternalCssAttribute,
   InternalCssPseudoClass,
@@ -25,10 +20,7 @@ type AliasMap = Map<string, string>;
  * @returns Normalized selector intermediate representation (first rule only)
  * @throws {UnsupportedSelectorError} If the parsed selector uses unsupported features or attributes
  */
-export function normalizeFromParsed(
-  parsed: InternalCssSelector,
-  schema: AttributeSchema,
-): ParsedSelector {
+export function normalizeFromParsed(parsed: InternalCssSelector, schema: AttributeSchema): ParsedSelector {
   if (isEmpty(parsed.rules)) {
     throw new UnsupportedSelectorError('No rules could be parsed out of the current selector');
   }
@@ -94,19 +86,14 @@ function coerceBoolean(
         case 'false':
           return 'false';
         default:
-          throw new UnsupportedSelectorError(
-            `'${entityName}' must be true, false or empty. Found '${rawValue ?? ''}'`,
-          );
+          throw new UnsupportedSelectorError(`'${entityName}' must be true, false or empty. Found '${rawValue ?? ''}'`);
       }
     default:
       throw new UnsupportedSelectorError(`Unsupported boolean format '${booleanFormat}'.`);
   }
 }
 
-function assertStringValue(
-  value: string | undefined,
-  entityName: string,
-): asserts value is string | undefined {
+function assertStringValue(value: string | undefined, entityName: string): asserts value is string | undefined {
   if (!isEmpty(value) && typeof value !== 'string') {
     throw new UnsupportedSelectorError(
       `'${entityName}=${value}' is an invalid attribute. Only string and empty attribute types are supported.`,
@@ -165,19 +152,11 @@ function normalizeEntity(
   }
 }
 
-function normalizeAttribute(
-  attr: InternalCssAttribute,
-  schema: AttributeSchema,
-  aliasMap: AliasMap,
-): ParsedAttribute {
+function normalizeAttribute(attr: InternalCssAttribute, schema: AttributeSchema, aliasMap: AliasMap): ParsedAttribute {
   return normalizeEntity(attr.name, attr.value, attr.operator, schema, aliasMap);
 }
 
-function normalizePseudo(
-  pseudo: InternalCssPseudoClass,
-  schema: AttributeSchema,
-  aliasMap: AliasMap,
-): ParsedAttribute {
+function normalizePseudo(pseudo: InternalCssPseudoClass, schema: AttributeSchema, aliasMap: AliasMap): ParsedAttribute {
   return normalizeEntity(pseudo.name, pseudo.value, undefined, schema, aliasMap);
 }
 

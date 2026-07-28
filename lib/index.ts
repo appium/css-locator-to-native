@@ -1,8 +1,4 @@
-export {
-  InvalidSelectorError,
-  UnsupportedSelectorError,
-  UnresolvedStrategyError,
-} from './public/errors.js';
+export {InvalidSelectorError, UnsupportedSelectorError, UnresolvedStrategyError} from './public/errors.js';
 export {normalizeCssSelector} from './public/normalize.js';
 export {createCssTransformer} from './public/transform.js';
 export type {

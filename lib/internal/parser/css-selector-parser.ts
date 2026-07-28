@@ -1,12 +1,6 @@
 import {createParser} from 'css-selector-parser';
-import type {
-  AstAttribute,
-  AstFormula,
-  AstPseudoClass,
-  AstRule,
-  AstSelector,
-  AstString,
-} from 'css-selector-parser';
+import type {AstAttribute, AstFormula, AstPseudoClass, AstRule, AstSelector, AstString} from 'css-selector-parser';
+
 import {InvalidSelectorError, UnsupportedSelectorError} from '../../public/errors.js';
 import type {
   CssParserAdapter,

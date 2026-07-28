@@ -79,25 +79,22 @@ export interface StrategyEmitter<TContext = unknown> {
 }
 
 /** Registry key identifying which emitter to use */
-export type StrategyKey<TEmitters extends Record<string, StrategyEmitter<any>>> = keyof TEmitters &
-  string;
+export type StrategyKey<TEmitters extends Record<string, StrategyEmitter<any>>> = keyof TEmitters & string;
 
 /**
  * Driver-implemented callback that picks which emitter registry key to use for a parsed selector.
  */
-export type StrategyResolver<
-  TEmitters extends Record<string, StrategyEmitter<any>>,
-  TContext = unknown,
-> = (parsed: ParsedSelector, css: string, ctx?: TContext) => StrategyKey<TEmitters>;
+export type StrategyResolver<TEmitters extends Record<string, StrategyEmitter<any>>, TContext = unknown> = (
+  parsed: ParsedSelector,
+  css: string,
+  ctx?: TContext,
+) => StrategyKey<TEmitters>;
 
 /** Function returned by {@link createCssTransformer} */
 export type CssTransformer<TContext = unknown> = (css: string, ctx?: TContext) => NativeLocator;
 
 /** Configuration for {@link createCssTransformer} */
-export interface CssTransformerConfig<
-  TEmitters extends Record<string, StrategyEmitter<any>>,
-  TContext = unknown,
-> {
+export interface CssTransformerConfig<TEmitters extends Record<string, StrategyEmitter<any>>, TContext = unknown> {
   /** Attribute vocabulary passed to normalization */
   schema: AttributeSchema;
   /** Named registry of strategy emitters */
