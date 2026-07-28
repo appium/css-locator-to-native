@@ -1,6 +1,6 @@
 {
   "name": "@appium/css-locator-to-native",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Platform-agnostic CSS selector parsing and normalization for native locator transformation",
   "homepage": "https://github.com/appium/css-locator-to-native#readme",
   "bugs": {

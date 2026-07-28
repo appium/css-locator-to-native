@@ -1,3 +1,9 @@
+## [1.0.6](https://github.com/appium/css-locator-to-native/compare/v1.0.5...v1.0.6) (2026-07-28)
+
+### Miscellaneous Chores
+
+* Integrate oxc and release configs ([#18](https://github.com/appium/css-locator-to-native/issues/18)) ([1362c06](https://github.com/appium/css-locator-to-native/commit/1362c067d79371e6a3b0a3fca27b1fa99b2670e9))
+
 ## [1.0.5](https://github.com/appium/css-locator-to-native/compare/v1.0.4...v1.0.5) (2026-07-06)
 
 ### Bug Fixes
