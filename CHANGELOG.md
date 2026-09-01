@@ -1,3 +1,9 @@
+## [1.0.7](https://github.com/appium/css-locator-to-native/compare/v1.0.6...v1.0.7) (2026-09-01)
+
+### Miscellaneous Chores
+
+* **deps:** bump actions/setup-node from 6 to 7 ([#14](https://github.com/appium/css-locator-to-native/issues/14)) ([446fb2b](https://github.com/appium/css-locator-to-native/commit/446fb2b8ecc2a8c4f57a8a252a3d07b6304f66f6))
+
 ## [1.0.6](https://github.com/appium/css-locator-to-native/compare/v1.0.5...v1.0.6) (2026-07-28)
 
 ### Miscellaneous Chores
