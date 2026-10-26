@@ -18,6 +18,7 @@ const parseCssSelector = createParser({
       unknown: 'accept',
       definitions: {
         Selector: ['has'],
+        Formula: ['nth-child', 'nth-last-child', 'nth-of-type', 'nth-last-of-type', 'nth-col', 'nth-last-col'],
       },
     },
     combinators: ['>', '+', '~'],

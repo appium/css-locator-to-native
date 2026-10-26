@@ -37,6 +37,18 @@ describe('parser adapter', function () {
     assert.deepStrictEqual(parsed.rule.pseudos, [{name: 'index', value: '2'}]);
   });
 
+  it('should reject non-constant nth-child formulas', function () {
+    assert.throws(() => normalizeCssSelector('button:nth-child(2n+1)', zeroOneSchema), /Unsupported nth formula/);
+    assert.throws(() => normalizeCssSelector('button:nth-child(odd)', zeroOneSchema), /Unsupported nth formula/);
+  });
+
+  it('should reject selector-valued pseudo-class arguments', function () {
+    assert.throws(
+      () => normalizeCssSelector('button:has(span)', zeroOneSchema),
+      /Unsupported pseudo-class argument for ':has'/,
+    );
+  });
+
   it('should throw InvalidSelectorError for invalid CSS syntax', function () {
     assert.throws(() => normalizeCssSelector('[[[', zeroOneSchema), InvalidSelectorError);
   });
