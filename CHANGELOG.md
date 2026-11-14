@@ -1,3 +1,13 @@
+## [2.0.0](https://github.com/appium/css-locator-to-native/compare/v1.0.7...v2.0.0) (2026-11-14)
+
+### ⚠ BREAKING CHANGES
+
+* Node 20 is no longer supported; engines.node is now ^22.22.2 || ^24.15.0 || >=26.0.0.
+
+### Features
+
+* bump engines and dev deps for Appium 4 compat ([#23](https://github.com/appium/css-locator-to-native/issues/23)) ([d3efd93](https://github.com/appium/css-locator-to-native/commit/d3efd939459a83ce37a687c45c3873e595887580))
+
 ## [1.0.7](https://github.com/appium/css-locator-to-native/compare/v1.0.6...v1.0.7) (2026-09-01)
 
 ### Miscellaneous Chores
