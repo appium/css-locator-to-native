@@ -1,3 +1,9 @@
+## [2.0.1](https://github.com/appium/css-locator-to-native/compare/v2.0.0...v2.0.1) (2026-11-14)
+
+### Bug Fixes
+
+* register Formula pseudo-class definitions in parser config ([#20](https://github.com/appium/css-locator-to-native/issues/20)) ([234879f](https://github.com/appium/css-locator-to-native/commit/234879f96d412baefc632390132c83dd0ca232f2))
+
 ## [2.0.0](https://github.com/appium/css-locator-to-native/compare/v1.0.7...v2.0.0) (2026-11-14)
 
 ### ⚠ BREAKING CHANGES
