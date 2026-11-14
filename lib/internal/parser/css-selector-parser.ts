@@ -11,13 +11,23 @@ import type {
 } from './types.js';
 
 const SUPPORTED_OPERATORS = new Set(['=', '*=', '^=', '$=', '~=']);
+const FORMULA_PSEUDOS = ['nth-of-type', 'nth-last-of-type', 'nth-col', 'nth-last-col'] as const;
+const FORMULA_OF_SELECTOR_PSEUDOS = ['nth-child', 'nth-last-child'] as const;
+const SELECTOR_PSEUDOS = ['has'] as const;
+const REGISTERED_PSEUDO_CLASSES = new Set<string>([
+  ...SELECTOR_PSEUDOS,
+  ...FORMULA_OF_SELECTOR_PSEUDOS,
+  ...FORMULA_PSEUDOS,
+]);
 
 const parseCssSelector = createParser({
   syntax: {
     pseudoClasses: {
       unknown: 'accept',
       definitions: {
-        Selector: ['has'],
+        Selector: [...SELECTOR_PSEUDOS],
+        Formula: [...FORMULA_PSEUDOS],
+        FormulaOfSelector: [...FORMULA_OF_SELECTOR_PSEUDOS],
       },
     },
     combinators: ['>', '+', '~'],
@@ -49,8 +59,35 @@ function readStringValue(
   throw new UnsupportedSelectorError(`${context} does not support substitution values.`);
 }
 
-function readPseudoValue(pseudo: AstPseudoClass): string | undefined {
+function normalizePseudoArgument(pseudo: AstPseudoClass): AstPseudoClass['argument'] {
+  const lowerName = pseudo.name.toLowerCase();
   const {argument} = pseudo;
+  if (
+    pseudo.name === lowerName ||
+    !REGISTERED_PSEUDO_CLASSES.has(lowerName) ||
+    (argument && argument.type !== 'String')
+  ) {
+    return argument;
+  }
+
+  const rawArg = argument ? `(${argument.value})` : '';
+  const reparsed = parseCssSelector(`:${lowerName}${rawArg}`);
+  const rule = reparsed.rules[0];
+  const item = rule?.items[0];
+  if (
+    reparsed.rules.length !== 1 ||
+    !rule ||
+    rule.nestedRule ||
+    rule.items.length !== 1 ||
+    item?.type !== 'PseudoClass'
+  ) {
+    throw new Error(`Invalid pseudo-class argument for ':${pseudo.name}'.`);
+  }
+  return item.argument;
+}
+
+function readPseudoValue(pseudo: AstPseudoClass): string | undefined {
+  const argument = normalizePseudoArgument(pseudo);
   if (!argument) {
     return undefined;
   }

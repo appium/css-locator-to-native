@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {describe, it} from 'node:test';
 
-import {InvalidSelectorError, normalizeCssSelector} from '../../lib/index.js';
+import {InvalidSelectorError, UnsupportedSelectorError, normalizeCssSelector} from '../../lib/index.js';
 import {zeroOneSchema} from '../fixtures/schemas.js';
 
 describe('parser adapter', function () {
@@ -35,6 +35,58 @@ describe('parser adapter', function () {
   it('should parse nth-child pseudo-classes as index', function () {
     const parsed = normalizeCssSelector('button:nth-child(2)', zeroOneSchema);
     assert.deepStrictEqual(parsed.rule.pseudos, [{name: 'index', value: '2'}]);
+    const upperParsed = normalizeCssSelector('button:NTH-CHILD(2)', zeroOneSchema);
+    assert.deepStrictEqual(upperParsed.rule.pseudos, [{name: 'index', value: '2'}]);
+  });
+
+  it('should reject non-constant nth formulas regardless of pseudo-class casing', function () {
+    for (const selector of [
+      'button:nth-child(2n+1)',
+      'button:nth-child(odd)',
+      'button:nth-last-child(2n+1)',
+      'button:nth-of-type(-n+3)',
+      'button:nth-last-of-type(n)',
+      'button:nth-col(2n)',
+      'button:nth-last-col(even)',
+      'button:NTH-CHILD(2n+1)',
+      ':Nth-Child(odd)',
+      'button:NTH-OF-TYPE(-n+3)',
+    ]) {
+      assert.throws(
+        () => normalizeCssSelector(selector, zeroOneSchema),
+        (err) => err instanceof UnsupportedSelectorError && /Unsupported nth formula/.test(err.message),
+      );
+    }
+  });
+
+  it('should reject FormulaOfSelector pseudo-class arguments as unsupported', function () {
+    for (const selector of ['a:nth-child(2 of b)', 'a:nth-last-child(2n+1 of b)', 'a:NTH-CHILD(2 of b)']) {
+      assert.throws(
+        () => normalizeCssSelector(selector, zeroOneSchema),
+        (err) => err instanceof UnsupportedSelectorError && /Unsupported pseudo-class argument/.test(err.message),
+      );
+    }
+  });
+
+  it('should throw InvalidSelectorError for invalid nth formula syntax', function () {
+    for (const selector of [
+      'button:nth-child(foo)',
+      'button:nth-child("2")',
+      'button:nth-child()',
+      'button:NTH-CHILD(foo)',
+      'button:NTH-CHILD',
+    ]) {
+      assert.throws(() => normalizeCssSelector(selector, zeroOneSchema), InvalidSelectorError);
+    }
+  });
+
+  it('should reject selector-valued pseudo-class arguments', function () {
+    for (const selector of ['button:has(span)', 'button:HAS(span)']) {
+      assert.throws(
+        () => normalizeCssSelector(selector, zeroOneSchema),
+        (err) => err instanceof UnsupportedSelectorError && /Unsupported pseudo-class argument/.test(err.message),
+      );
+    }
   });
 
   it('should throw InvalidSelectorError for invalid CSS syntax', function () {
